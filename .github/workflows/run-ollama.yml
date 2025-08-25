@@ -15,9 +15,9 @@ jobs:
         run: |
           curl -fsSL https://ollama.com/install.sh | sh
           
-      - name: Pull LLM Model (Example: Llama3)
+      - name: Pull LLM Model goekdenizguelmez/JOSIEFIED-Qwen3:4b
         run: |
-          ollama pull llama3
+          ollama pull goekdenizguelmez/JOSIEFIED-Qwen3:4b
           
       - name: Run Ollama Service
         run: |
@@ -27,7 +27,7 @@ jobs:
       - name: Interact with Model (Example)
         run: |
           echo "Asking Ollama a question..."
-          ollama run llama3 "Why is the sky blue?" --verbose
+          ollama run goekdenizguelmez/JOSIEFIED-Qwen3:4b "Why is the sky blue?" --verbose
           
       - name: Keep Workflow Alive (Optional)
         run: |
