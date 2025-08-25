@@ -1,0 +1,42 @@
+name: Run Ollama
+on:
+  workflow_dispatch: # Memungkinkan menjalankan workflow secara manual
+jobs:
+  run-ollama:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v3
+
+      - name: Install Ollama
+        run: |
+          curl -fsSL https://ollama.com/install.sh | sh
+          
+      - name: Pull LLM Model (Example: Llama3)
+        run: |
+          ollama pull llama3
+          
+      - name: Run Ollama Service
+        run: |
+          ollama serve &
+          sleep 5 # Tunggu service mulai
+          
+      - name: Interact with Model (Example)
+        run: |
+          echo "Asking Ollama a question..."
+          ollama run llama3 "Why is the sky blue?" --verbose
+          
+      - name: Keep Workflow Alive (Optional)
+        run: |
+          echo "Ollama is running. You can interact with it now."
+          echo "This workflow will end in 5 minutes unless you add more steps."
+          sleep 300 # Tunggu 5 menit sebelum berakhir
+          
+      - name: Cleanup
+        if: always()
+        run: |
+          echo "Stopping Ollama service..."
+          pkill -f ollama || true
